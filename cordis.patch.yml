@@ -1,0 +1,10 @@
+# Replace the core chat view with this forked build.
+#
+# `ui-chat` is the entry id of @deepseek-ai/dsh-client-ui-chat in the profile
+# bundle graph. Disabling it removes the core ReasoningRow; the inserted entry
+# mounts the same bundle with the summary change (see src/reasoning-summary.js).
+- id: ui-chat
+  disabled: true
+- insert:
+    - id: ui-chat-thinking-summary
+      name: dsh-chat-thinking-summary

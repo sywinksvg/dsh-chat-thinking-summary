@@ -1,0 +1,37 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build from published core
+        run: npm run build:from-npm
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Verify shipped tree
+        run: npm run verify
+
+      - name: Pack
+        run: npm pack
+
+      - name: Attach tarball to the release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dsh-chat-thinking-summary-*.tgz
+          generate_release_notes: true
